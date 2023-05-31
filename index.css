@@ -1,0 +1,235 @@
+/*i use background-color as a reference so i can see where divs go but i use background to show that it is final - generally useful for using the search functionality*/
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+    color: white;
+}
+
+body {
+    background-color: white;
+
+    /*to remove scroll bar on website*/
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    overflow-y: scroll;
+}
+
+body::-webkit-scrollbar {
+    /*to remove scroll bar on website*/
+    display: none;
+}
+
+h1{
+    color: white;
+    width: 100%;
+    text-align: center;
+    padding-top: 20px;
+    position: absolute;
+    right: 0;
+    font-size: 40px;
+    font-weight: 600;
+}
+
+#menuIcon{
+    width: 60px;
+    border-radius: 50%;
+    position: fixed;
+    top: 40px;
+    right: 60px;
+    cursor: pointer;
+    z-index: 1000;
+    box-shadow: 0 0 4px 5px rgba(0, 0, 0, 0.2)
+}
+
+.menu-box{
+    width: 0;
+    height: 0;
+    background: rgba(0, 0, 0, 0.8);
+    position: fixed;
+    top: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+
+border-bottom-left-radius: 100%;
+    transition: width 0.5s, height 0.5s, border-radius 0.5s;
+    z-index: 999;
+}
+
+.menu-box.open-menu{
+    width: 100%;
+    height: 100vh;
+    border-bottom-left-radius: 0;
+}
+
+.menu-box.open-menu ul li{
+    opacity: 1;
+    transform: translateY(0);
+    transition: transform 1s, opacity 1s;
+    transition-delay: 0.5s;
+}
+
+.menu-box ul li{
+    list-style: none;
+    margin: 20px;
+    text-align: center;
+
+    opacity: 0;
+    transform: translateY(30px);
+}
+
+.menu-box ul li a{
+    display: inline-block;
+    text-decoration: none;
+    color: #fff;
+    font-size: 50px;
+    font-weight: 600;
+    position: relative;
+    text-shadow: 0 0 0 red;
+    transition: text-shadow 0.5s, transform 0.5s;
+}
+
+.menu-box ul li a:hover{
+    text-shadow: -3px 3px 0 red;
+    transform: translateY(-6px);
+}
+
+.menu-box ul li a::after{
+    content: '';
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #fff;
+    position: absolute;
+    bottom: 19px;
+    right: -18px;
+    opacity: 0;
+    box-shadow: 0 0 0 red;
+    transition: box-shadow 0.5s;
+}
+
+.menu-box ul li a:hover::after{
+    opacity: 1;
+    box-shadow: -2px 2px 0 red;
+}
+
+.content {
+    width: 100%;
+    background-color: white;
+}
+
+.background-header {
+    /*for image*/
+    width: 100%;
+    height: 100vh;
+    background-image: linear-gradient(rgba(4,9,30,0.7),rgba(4,9,30,0.7)),url(./images/tetris.png);
+    background-position: center;
+    background-size: cover;
+    position: relative;
+    overflow: hidden;
+}
+
+.line{
+    text-align: justify;
+    -ms-text-justify: distribute-all-lines;
+    text-justify: distribute-all-lines;
+    width: 650px;
+    margin-top: 70px;
+    margin-left: 70px;
+}
+
+.game-container {
+    width: 300px;
+    height: 350px;
+    vertical-align: top;
+    position: relative;
+    display: inline-block;
+    *display: inline;
+    zoom: 1;
+    margin: 10px;
+}
+
+.stretch {
+    width: 100%;
+    display: inline-block;
+    font-size: 0;
+    line-height: 0;
+}
+
+.game-photo {
+    width: 300px;
+    height: 300px;
+    background-color: blueviolet;
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: 20px 20px 0 0;
+}
+
+.game-name {
+    background-color: rgb(255, 0, 81);
+    position: absolute;
+    height: 50px;
+    width: 100%;
+    bottom: 0;
+    left: 0;
+    border-radius: 0 0 20px 20px;
+    font-size: 30px;
+    color: white;
+    font-family: 'Poppins';
+    font-weight: 600;
+    padding-left: 10px;
+}
+
+.base{
+    width: 600px;
+    height: 700px;
+    position: absolute;
+    top: 100px;
+    right: 300px;
+
+    background-color: transparent;
+    color: white;
+    overflow-y: scroll;
+}
+
+form{
+    display:  none;
+}
+
+div::-webkit-scrollbar {
+    display: none;
+  }
+
+.base p{
+    margin-top: 20px;
+}
+
+#login-form, #signup-form, #logout-btn{
+    display: none;
+}
+
+form img{
+    width: 350px;
+}
+
+.hide{
+    display: none;
+}
+
+input{
+    background-color: transparent;
+    border: 1px solid white;
+    color: blueviolet;
+}
+
+button{
+    background-color: blueviolet;
+    border: 1px solid purple;
+    color: white;
+}

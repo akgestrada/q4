@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="author" content="Aldrei Kayl G. Estrada">
+    <meta name="description" content="">
+    <meta name="keywords" content="HTML, CSS, JavaScript">
+    <meta name="revised" content="">
+
+    <title></title>
+
+    <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,600,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="index.css">
+    <link rel="icon" href="" type="image/gif">
+</head>
+
+<body>
+
+    <img src="./images/menu.png" id="menuIcon">
+    <div class="menu-box" id="menuBox">
+        <ul>
+            <li><a href=""></a></li>
+        </ul>
+    </div>
+
+    <script>
+
+        // Function to handle user login
+        var currentAccount = '';
+        var loggedin = 0;
+
+        function login() {
+        var username = document.getElementById('username').value;
+        var password = document.getElementById('password').value;
+        // Retrieve stored user accounts from localStorage
+        var storedAccounts = localStorage.getItem('accounts');
+        // Check if any accounts are stored
+        if (storedAccounts) {
+            var accounts = JSON.parse(storedAccounts);
+            // Search for matching username and password
+            var matchedAccount = accounts.find(function(account) {
+            return account.username === username && account.password === password;
+            });
+
+            if (matchedAccount) {
+            // Successful login
+            alert('Login successful!');
+            document.getElementById('login-form').style.display = 'none'; // Hide login form
+            document.getElementById('signup-form').style.display = 'none'; // Hide login form
+            document.getElementById('logout-btn').style.display = 'block'; // Show logout button
+            currentAccount = document.getElementById('username').value;
+            loggedin = 1
+
+            } else {
+            // Invalid credentials
+            alert('Invalid username or password');
+            }
+        } else {
+            // No accounts stored
+            alert('No accounts found. Please sign up first.');
+        }
+        }
+
+        // Function to handle user logout
+        function logout() {
+        // Perform any necessary cleanup or session handling here
+
+        document.getElementById('login-form').style.display = 'block'; // Show login form
+        document.getElementById('signup-form').style.display = 'block'; // Hide login form
+        document.getElementById('logout-btn').style.display = 'none'; // Hide logout button
+        currentAccount = ''
+        loggedin = 0
+        }
+
+        // Function to handle user sign up
+        function signUp() {
+        var username = document.getElementById('new-username').value;
+        var password = document.getElementById('new-password').value;
+
+        // Retrieve stored user accounts from localStorage
+        var storedAccounts = localStorage.getItem('accounts');
+
+        if (storedAccounts) {
+            var accounts = JSON.parse(storedAccounts);
+            // Check if the username is already taken
+            var existingAccount = accounts.find(function(account) {
+            return account.username === username;
+            });
+
+            if (existingAccount) {
+            // Username already taken
+            alert('Username already taken. Please choose a different one.');
+            } else {
+            // Add new account
+            accounts.push({ username: username, password: password, whoscore: 0, baskemtballscore: 0});
+            localStorage.setItem('accounts', JSON.stringify(accounts));
+            alert('Account created successfully!');
+            }
+        } else {
+            // Create new accounts array and add the first account
+            var accounts = [{ username: username, password: password, whoscore: 0, baskemtballscore: 0}];
+            localStorage.setItem('accounts', JSON.stringify(accounts));
+            alert('Account created successfully!');
+        }
+        }
+///////////////////////////////////////////////////////////////////////////////////////
+        let menuBox = document.getElementById("menuBox");
+        let menuIcon = document.getElementById("menuIcon");
+        
+        menuIcon.onclick = function(){
+            menuBox.classList.toggle("open-menu");
+        
+            if(menuBox.classList.contains("open-menu")){
+                menuIcon.src = "./images/close.png";
+            }
+            else{
+                menuIcon.src = "./images/menu.png";
+            }
+        }
+///////////////////////////////////////////////////////////////////////////////////////
+
+function checkwho() {
+    let newhoscore = 0;
+    if (document.querySelector('input[name="q1"]:checked').value == 'correct') {newhoscore++;}
+    if (document.querySelector('input[name="q2"]:checked').value == 'correct') {newhoscore++;}
+    if (document.querySelector('input[name="q3"]:checked').value == 'correct') {newhoscore++;}
+    if (document.querySelector('input[name="q4"]:checked').value == 'correct') {newhoscore++;}
+    if (document.querySelector('input[name="q5"]:checked').value == 'correct') {newhoscore++;}
+    if (document.querySelector('input[name="q6"]:checked').value == 'correct') {newhoscore++;}
+    if (document.querySelector('input[name="q7"]:checked').value == 'correct') {newhoscore++;}
+    if (document.querySelector('input[name="q8"]:checked').value == 'correct') {newhoscore++;}
+    if (document.querySelector('input[name="q9"]:checked').value == 'correct') {newhoscore++;}
+
+  console.log('newhoscore:', newhoscore);
+
+  var storedAccounts = localStorage.getItem('accounts');
+
+  if (storedAccounts) {
+        var accounts = JSON.parse(storedAccounts);
+        var account = accounts.find(function (account) {
+            return account.username === currentAccount;
+        });
+
+    if (account) {
+        console.log('Before update:', account.whoscore);
+        account.whoscore = newhoscore;
+        console.log('After update:', account.whoscore);
+        localStorage.setItem('accounts', JSON.stringify(accounts));
+        alert('Whoscore updated successfully!');
+        } else {
+        alert('Account not found.');
+        }
+    } else {
+        alert('No accounts found.');
+    }
+
+    displayWhoscoreLeaderboard();
+}
+
+    function displayWhoscoreLeaderboard() {
+            document.getElementsByTagName('form')[0].style.display = 'none'
+            document.getElementsByTagName('form')[1].style.display = 'none'
+            document.getElementsByTagName('h2')[6].style.display = 'block'
+            document.getElementsByTagName('h2')[7].style.display = 'block'
+            document.getElementById('whoscore-leaderboard').style.display = 'block'
+            document.getElementById('baskemtballscore-leaderboard').style.display = 'block'
+            document.getElementById('login-form').style.display = 'none'
+            document.getElementById('signup-form').style.display = 'none'
+            document.getElementById('logout-btn').style.display = 'none'
+            var storedAccounts = localStorage.getItem('accounts');
+
+            if (storedAccounts) {
+                var accounts = JSON.parse(storedAccounts);
+                accounts.sort(function(a, b) {
+                    return b.whoscore - a.whoscore;
+                });
+
+                var leaderboard = document.getElementById('whoscore-leaderboard');
+                leaderboard.innerHTML = '';
+
+                for (var i = 0; i < accounts.length; i++) {
+                    var account = accounts[i];
+                    var listItem = document.createElement('li');
+                    listItem.textContent = account.username + ': ' + account.whoscore + ' points';
+                    leaderboard.appendChild(listItem);
+                }
+            }
+        }
+
+        function checkbaskemtball(){
+        let newbascore = 0;
+        if (document.querySelector('input[name="q1"]:checked').value == 'correct') {newbascore++;}
+        if (document.querySelector('input[name="q2"]:checked').value == 'correct') {newbascore++;}
+        if (document.querySelector('input[name="q3"]:checked').value == 'correct') {newbascore++;}
+        if (document.querySelector('input[name="q4"]:checked').value == 'correct') {newbascore++;}
+        if (document.querySelector('input[name="q5"]:checked').value == 'correct') {newbascore++;}
+
+        var storedAccounts = localStorage.getItem('accounts');
+
+        if (storedAccounts) {
+            var accounts = JSON.parse(storedAccounts);
+            var account = accounts.find(function(account) {
+                return account.username === currentAccount;
+            });
+
+            if (account) {
+                account.baskemtballscore = newbascore;
+                localStorage.setItem('accounts', JSON.stringify(accounts));
+                alert('baskemtballscore updated successfully!');
+
+                console.log(account.baskemtballscore)
+            } else {
+                alert('Account not found.');
+            }
+        } else {
+            alert('No accounts found.');
+        }
+
+        displayBasketballscoreLeaderboard()
+        }
+
+        function displayBasketballscoreLeaderboard(){
+            document.getElementsByTagName('form')[0].style.display = 'none'
+            document.getElementsByTagName('form')[1].style.display = 'none'
+            document.getElementsByTagName('h2')[6].style.display = 'block'
+            document.getElementsByTagName('h2')[7].style.display = 'block'
+            document.getElementById('whoscore-leaderboard').style.display = 'block'
+            document.getElementById('baskemtballscore-leaderboard').style.display = 'block'
+            document.getElementById('login-form').style.display = 'none'
+            document.getElementById('signup-form').style.display = 'none'
+            document.getElementById('logout-btn').style.display = 'none'
+            var storedAccounts = localStorage.getItem('accounts');
+
+            if (storedAccounts) {
+                var accounts = JSON.parse(storedAccounts);
+                accounts.sort(function(a, b) {
+                    return b.baskemtballscore - a.baskemtballscore;
+                });
+
+                var leaderboard = document.getElementById('baskemtballscore-leaderboard');
+                leaderboard.innerHTML = '';
+
+                for (var i = 0; i < accounts.length; i++) {
+                    var account = accounts[i];
+                    var listItem = document.createElement('li');
+                    listItem.textContent = account.username + ': ' + account.baskemtballscore + ' points';
+                    leaderboard.appendChild(listItem);
+                }
+            }
+        }
+
+        function showbaskemtball(){
+            document.getElementsByTagName('form')[0].style.display = 'none'
+            document.getElementsByTagName('form')[1].style.display = 'block'
+            document.getElementsByTagName('h2')[6].style.display = 'none'
+            document.getElementsByTagName('h2')[7].style.display = 'none'
+            document.getElementById('whoscore-leaderboard').style.display = 'none'
+            document.getElementById('baskemtballscore-leaderboard').style.display = 'none'
+            document.getElementById('login-form').style.display = 'none'
+            document.getElementById('signup-form').style.display = 'none'
+            document.getElementById('logout-btn').style.display = 'none'
+        }
+
+        function showho(){
+            document.getElementsByTagName('form')[0].style.display = 'block'
+            document.getElementsByTagName('form')[1].style.display = 'none'
+            document.getElementsByTagName('h2')[6].style.display = 'none'
+            document.getElementsByTagName('h2')[7].style.display = 'none'
+            document.getElementById('whoscore-leaderboard').style.display = 'none'
+            document.getElementById('baskemtballscore-leaderboard').style.display = 'none'
+            document.getElementById('login-form').style.display = 'none'
+            document.getElementById('signup-form').style.display = 'none'
+            document.getElementById('logout-btn').style.display = 'none'
+        }
+
+        function showlogin(){
+            document.getElementsByTagName('form')[0].style.display = 'none'
+            document.getElementsByTagName('form')[1].style.display = 'none'
+            document.getElementsByTagName('h2')[6].style.display = 'none'
+            document.getElementsByTagName('h2')[7].style.display = 'none'
+            document.getElementById('whoscore-leaderboard').style.display = 'none'
+            document.getElementById('baskemtballscore-leaderboard').style.display = 'none'
+            document.getElementById('login-form').style.display = 'none'
+            document.getElementById('signup-form').style.display = 'none'
+            document.getElementById('logout-btn').style.display = 'none'
+            if(loggedin == 1){
+                document.getElementById('login-form').style.display = 'none'
+                document.getElementById('signup-form').style.display = 'none'
+                document.getElementById('logout-btn').style.display = 'inline-block'
+            }
+            else{
+                document.getElementById('login-form').style.display = 'block'
+                document.getElementById('signup-form').style.display = 'block'
+                document.getElementById('logout-btn').style.display = 'none'
+            }
+        }
+
+        window.addEventListener('load', function() {
+            displayWhoscoreLeaderboard();
+            displayBasketballscoreLeaderboard();
+        });
+    </script>
+
+    <div class="background-header">
+        <h1><span class="h1">SURVEY THIS</span></h1>
+        <div class="line">
+            <div class="game-container">
+                <a href="#" onclick="showlogin()"><img src="./images/about you.png" class="game-photo" alt=""></a>
+                <a href="#"><h2 class="game-name">About You</h2></a>
+            </div>
+    
+            <div class="game-container">
+                <a href="#" onclick="showho()"><img src="./images/who said.png" class="game-photo" alt=""></a>
+                <a href="#"><h2 class="game-name">Whosaid</h2></a> <!--spelling is intentional-->
+            </div>
+    
+            <div class="game-container">
+                <a href="#" onclick="showbaskemtball()"><img src="./images/guess who.jpg" class="game-photo" alt=""></a>
+                <a href="#"><h2 class="game-name">Baskemtball</h2></a>
+            </div>
+    
+            <div class="game-container">
+                <a href="#" onclick="displayWhoscoreLeaderboard()"><img src="./images/lion king.jpg" class="game-photo" alt=""></a>
+                <a href="#"><h2 class="game-name">Leaderboards</h2></a>
+            </div>
+            <span class="stretch"></span>
+        </div>
+
+        <div class="base">
+            <div id="login-form" class="login-form">
+            <h2>Login</h2>
+                <div class="form-group">
+                    <label for="username">Username:</label>
+                    <input type="text" id="username" />
+                </div>
+                <div class="form-group">
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" />
+                </div>
+                <div class="form-group"><button onclick="login()">Login</button></div>
+            </div>
+            
+            <div id="signup-form" class="login-form">
+            <h2>Sign Up</h2>
+                <div class="form-group">
+                    <label for="new-username">Username:</label>
+                    <input type="text" id="new-username" />
+                </div>
+                <div class="form-group">
+                    <label for="new-password">Password:</label>
+                    <input type="password" id="new-password" />
+                </div>
+                <div class="form-group"><button onclick="signUp()">Sign Up</button></div>
+            </div>
+            
+            <button id="logout-btn" onclick="logout()">Logout</button>    
+
+
+            <form id="whosaid" onsubmit="checkwho()">
+                <p>“Ask not what your country can do for you; ask what you can do for your country.”</p>
+                <input type="radio" name="q1" value="option1"> Joseph Stalin<br>
+                <input type="radio" name="q1" value="option2"> Winston Churchill<br>
+                <input type="radio" name="q1" value="option3"> Marie-Antoinette<br>
+                <input type="radio" name="q1" value="correct"> John F. Kennedy<br>
+            
+                <p>"No, This Is Patrick!"</p>
+                <input type="radio" name="q2" value="correct"> Patrick<br>
+                <input type="radio" name="q2" value="option2"> not Patrick<br>
+                <input type="radio" name="q2" value="option3"> Patrick from Friends<br>
+                <input type="radio" name="q2" value="option4"> yes Patrick<br>
+            
+                <p>“I wasn’t going to eat it, I was just going to taste it.”</p>
+                <input type="radio" name="q3" value="option1"> Barney<br>
+                <input type="radio" name="q3" value="option2"> Patrick<br>
+                <input type="radio" name="q3" value="correct"> Winnie the Pooh<br>
+                <input type="radio" name="q3" value="option4"> Olaf<br>
+            
+                <p>"The Inner Machinations Of My Mind Are An Enigma."</p>
+                <input type="radio" name="q4" value="option1"> Barney<br>
+                <input type="radio" name="q4" value="correct"> Patrick<br>
+                <input type="radio" name="q4" value="option3"> Winnie the Pooh<br>
+                <input type="radio" name="q4" value="option4"> Olaf<br>
+            
+                <p>“Sometimes the smallest things take up the most room in your heart.”</p>
+                <input type="radio" name="q5" value="option1"> Barney<br>
+                <input type="radio" name="q5" value="option2"> Spongebob<br>
+                <input type="radio" name="q5" value="correct"> Winnie the Pooh<br>
+                <input type="radio" name="q5" value="option4"> Olaf<br>
+            
+                <p>“How lucky am I to have something that makes saying goodbye so hard.”</p>
+                <input type="radio" name="q6" value="option1"> Barney<br>
+                <input type="radio" name="q6" value="option2"> Spongebob<br>
+                <input type="radio" name="q6" value="correct"> Winnie the Pooh<br>
+                <input type="radio" name="q6" value="option4"> Olaf<br>
+            
+                <p>"Everybody does stupid things, it shouldn't cost them everything they want in life."</p>
+                <input type="radio" name="q7" value="correct"> Dr. House<br>
+                <input type="radio" name="q7" value="option2"> Captain Holt<br>
+                <input type="radio" name="q7" value="option3"> Dr. Darry Nolan<br>
+                <input type="radio" name="q7" value="option4"> Everybody Hates Chris<br>
+            
+                <p>"And humility is an important quality. Especially if you're wrong a lot.... Of course, when you're right, self-doubt doesn't help anybody, does it?"</p>
+                <input type="radio" name="q8" value="correct"> Dr. House<br>
+                <input type="radio" name="q8" value="option2"> Dr. Cha<br>
+                <input type="radio" name="q8" value="option3"> Dr. Darry Nolan<br>
+                <input type="radio" name="q8" value="option4"> Dr. Han<br>
+            
+                <p> "A bold personality. We know what that's code for. She's a bitch."</p>
+                <input type="radio" name="q9" value="option1"> Dr. House<br>
+                <input type="radio" name="q9" value="correct"> Captain Holt<br>
+                <input type="radio" name="q9" value="option3"> Dr. Darry Nolan<br>
+                <input type="radio" name="q9" value="option4"> Everybody Hates Chris<br>
+                <input type="submit" value="Submit">
+            </form>
+
+            <form id="baskemtball" onsubmit="checkbaskemtball()">
+                <img src="./images/boy abunda.jpg" alt=""><br>
+                <input type="radio" name="q1" value="option1"> Boy Abunda<br>
+                <input type="radio" name="q1" value="option2"> Bato de la Rosa<br>
+                <input type="radio" name="q1" value="option3"> Kanye West<br>
+                <input type="radio" name="q1" value="correct"> Jo Koy<br><br>
+            
+                <img src="./images/obama.jpg" alt=""><br>
+                <input type="radio" name="q2" value="correct"> LeBron<br>
+                <input type="radio" name="q2" value="option2"> Shaquille O'Neal<br>
+                <input type="radio" name="q2" value="option3"> Kevin Heart<br>
+                <input type="radio" name="q2" value="option4"> Kareem Abdul-Jabbar<br><br>
+            
+                <img src="./images/luka doncic.jpg" alt=""><br>
+                <input type="radio" name="q3" value="option1"> Luca Doncic<br>
+                <input type="radio" name="q3" value="option2"> Steph Curry<br>
+                <input type="radio" name="q3" value="correct"> Klay Thompson<br>
+                <input type="radio" name="q3" value="option4"> Richard Jefferson<br><br>
+            
+                <img src="./images/curry.jpg" alt=""><br>
+                <input type="radio" name="q4" value="option1"> Messi<br>
+                <input type="radio" name="q4" value="correct"> Ronaldo<br>
+                <input type="radio" name="q4" value="option3"> Mbappe<br>
+                <input type="radio" name="q4" value="option4"> Neymar<br><br>
+            
+                <img src="./images/shaq.jpg" alt=""><br>
+                <input type="radio" name="q5" value="option1"> Shaquille O'Neal<br>
+                <input type="radio" name="q5" value="option2"> LeBron<br>
+                <input type="radio" name="q5" value="correct"> Kevin Heart<br>
+                <input type="radio" name="q5" value="option4"> Jimmy Butler<br>
+                <input type="submit" value="Submit">
+            </form>
+
+            <h2 class="hide">Whoscore Leaderboard</h2>
+            <ul id="whoscore-leaderboard"></ul>
+
+            <h2 class="hide">Basketballscore Leaderboard</h2>
+            <ul id="baskemtballscore-leaderboard"></ul>
+        </div>
+    </div>
+</body>
